@@ -37,6 +37,7 @@ class Ball:
             tij=np.array([-nij[1],nij[0]])
             delta_v=np.dot(v,tij)
             ans=np.add((k1/self.mass)*nij+(k2/self.mass)*delta_v*tij,ans,casting="unsafe")
+            ans=np.add(ans,(A/m)*np.exp((r-d)/B)*nij,casting="unsafe")
             #print(ans)
         else:
             ans=np.add(ans,A/m*np.exp((r-d)/B)*nij,casting="unsafe")
@@ -52,7 +53,7 @@ class Ball:
         r1,r2=self.radius,ball2.radius
         v1,v2=self.velocity,ball2.velocity
         d=np.linalg.norm(x2-x1)
-        nij=(x2-x1)/d
+        nij=(x1-x2)/d
         
         #print(self.acceleration)
         if(r1+r2>=d):
@@ -61,7 +62,6 @@ class Ball:
             self.acceleration+=k1/self.mass*nij+k2/self.mass*delta_v*tij
             self.acceleration=np.add(A/self.mass*np.exp((r1+r2-d)/B)*nij,self.acceleration,casting="unsafe")
             print(self.acceleration)
-            print("accele")
         else:
             self.acceleration=np.add(A/self.mass*np.exp((r1+r2-d)/B)*nij,self.acceleration,casting="unsafe")
 
