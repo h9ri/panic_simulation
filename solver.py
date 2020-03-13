@@ -32,13 +32,11 @@ class Ball:
         r,v,m=self.radius,self.velocity,self.mass
         position=self.position
         ans=np.array([0,0])
-               # print(ans)
-        if(r>=d):            
+        if(r>d):            
             tij=np.array([-nij[1],nij[0]])
             delta_v=np.dot(v,tij)
             ans=np.add((k1/self.mass)*nij+(k2/self.mass)*delta_v*tij,ans,casting="unsafe")
-            ans=np.add(ans,(A/m)*np.exp((r-d)/B)*nij,casting="unsafe")
-            #print(ans)
+            ans=np.add(ans,A/m*np.exp((r-d)/B)*nij,casting="unsafe")
         else:
             ans=np.add(ans,A/m*np.exp((r-d)/B)*nij,casting="unsafe")
 
@@ -54,14 +52,11 @@ class Ball:
         v1,v2=self.velocity,ball2.velocity
         d=np.linalg.norm(x2-x1)
         nij=(x1-x2)/d
-        
-        #print(self.acceleration)
         if(r1+r2>=d):
             tij=np.array([-nij[1],nij[0]])
             delta_v=np.dot((v2-v1),tij)
             self.acceleration+=k1/self.mass*nij+k2/self.mass*delta_v*tij
             self.acceleration=np.add(A/self.mass*np.exp((r1+r2-d)/B)*nij,self.acceleration,casting="unsafe")
-            print(self.acceleration)
         else:
             self.acceleration=np.add(A/self.mass*np.exp((r1+r2-d)/B)*nij,self.acceleration,casting="unsafe")
 
@@ -70,8 +65,6 @@ class Ball:
         """Compute position of next step."""
         #print(self.acceleration+"  "+self.position)
         self.position = np.add(self.position,step * self.velocity+(1/2*self.acceleration*(step)*step)%size,casting="unsafe")
-        print(self.position)
-        print("ddgf")
         self.velocity=np.add(self.velocity,step*self.acceleration)
         
 
