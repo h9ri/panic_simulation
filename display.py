@@ -50,10 +50,6 @@ class Display:
         self.window.mainloop()
     
     def create(self):
-        """Create a drawing item for each solver.Ball object
-            
-        return a dictionary with solver.Ball objects as keys and their circle drawings as items
-        """
         return {ball: self.canvas.create_circle(ball.position[0], ball.position[1], ball.radius, fill="white") for ball in self.balls}
 
     def update(self):
@@ -61,6 +57,13 @@ class Display:
         solver.solve_step_2(self.balls, self.step, self.size)
         for ball in self.balls:
             self.canvas.coords_circle(self.drawing[ball], ball.position[0], ball.position[1], ball.radius)
+            if ball.fdr:
+                self.change_colour(ball)
+        self.canvas.update()
+    
+    #this is supposed to change colour but not  working
+    def change_colour(self,ball):
+        self.canvas.itemconfig(ball, fill = "blue")
         self.canvas.update()
 
     def start(self):
@@ -84,7 +87,8 @@ if __name__ == "__main__":
     #balls = [solver.Ball(5., 5., [40.,40.], [5.,5.]), solver.Ball(5., 5., [480.,480.], [-15.,-15.]), solver.Ball(5., 5., [30.,470.], [10.,-10.])]
     balls=[]
     size = 500.
-    step = 0.1
-    for i in range(2):
-        balls.append(solver.Ball(80.,5,[float(random.randint(0,400)),float(random.randint(0,499))],0.5,size))    
+    step = 0.01
+    for i in range(8):
+        balls.append(solver.Ball(80.,5,[float(random.randint(300,400)),float(random.randint(200,400))],0.5,size))    
     Display(balls, step, size)
+
